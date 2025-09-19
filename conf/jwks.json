@@ -1,0 +1,11 @@
+{
+  "keys": [
+    {
+      "kty": "oct",
+      "kid": "aim-jwt-key-1",
+      "k": "YWltLXNlY3JldC04NTI2",
+      "alg": "HS512",
+      "use": "sig"
+    }
+  ]
+}

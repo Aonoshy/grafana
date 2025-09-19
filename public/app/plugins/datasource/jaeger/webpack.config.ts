@@ -4,7 +4,11 @@ import config from '@grafana/plugin-configs/webpack.config.ts';
 
 const require = createRequire(import.meta.url);
 
-const configWithFallback = async (env: Record<string, unknown>) => {
+type Env = {
+  [key: string]: true | string | Env;
+};
+
+const configWithFallback = async (env: Env) => {
   const response = await config(env);
   if (response !== undefined && response.resolve !== undefined) {
     response.resolve.fallback = {
