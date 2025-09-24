@@ -200,6 +200,28 @@
       .ng-cloak {
         display: none !important;
       }
+
+      /* 隐藏登录按钮 - 简单粗暴的方法 */
+      a[href*="forceLogin=true"],
+      a[href*="forceLogin=true"]:before,
+      a[href*="forceLogin=true"]:after,
+      .css-n09bar,
+      button[aria-label*="Profile"],
+      button[aria-label*="Profile"]:before,
+      button[aria-label*="Profile"]:after {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        background: none !important;
+        color: transparent !important;
+        text-indent: -9999px !important;
+        overflow: hidden !important;
+      }
     </style>
 
     <div class="preloader">
