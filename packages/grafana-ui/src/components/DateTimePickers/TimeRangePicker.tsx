@@ -28,7 +28,7 @@ import { Tooltip } from '../Tooltip/Tooltip';
 import { TimePickerContent } from './TimeRangePicker/TimePickerContent';
 import { TimeZoneDescription } from './TimeZonePicker/TimeZoneDescription';
 import { WeekStart } from './WeekStartPicker';
-import { quickOptions } from './options';
+import { getQuickOptions } from './options';
 import { useTimeSync } from './utils/useTimeSync';
 
 /** @public */
@@ -145,7 +145,7 @@ export function TimeRangePicker(props: TimeRangePickerProps) {
   const isFromAfterTo = value?.to?.isBefore(value.from);
   const timePickerIcon = isFromAfterTo ? 'exclamation-triangle' : 'clock-nine';
 
-  const currentTimeRange = formattedRange(value, timeZone, quickRanges);
+  const currentTimeRange = formattedRange(value, timeZone, quickRanges || getQuickOptions());
 
   return (
     <ButtonGroup className={styles.container}>
@@ -189,7 +189,7 @@ export function TimeRangePicker(props: TimeRangePickerProps) {
                 fiscalYearStartMonth={fiscalYearStartMonth}
                 value={value}
                 onChange={onChange}
-                quickOptions={quickRanges || quickOptions}
+                quickOptions={quickRanges || getQuickOptions()}
                 history={history}
                 showHistory
                 widthOverride={widthOverride}
@@ -273,7 +273,7 @@ export const TimePickerButtonLabel = memo<LabelProps>(({ hideText, value, timeZo
 
   return (
     <span className={styles.container} aria-live="polite" aria-atomic="true">
-      <span>{formattedRange(value, timeZone, quickRanges)}</span>
+      <span>{formattedRange(value, timeZone, quickRanges || getQuickOptions())}</span>
       <span className={styles.utc}>{rangeUtil.describeTimeRangeAbbreviation(value, timeZone)}</span>
     </span>
   );

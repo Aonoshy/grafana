@@ -2,6 +2,8 @@ import { css } from '@emotion/css';
 import pluralize from 'pluralize';
 import { PureComponent } from 'react';
 import * as React from 'react';
+
+import { t } from '@grafana/i18n';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
 import {
@@ -55,48 +57,56 @@ interface State {
 export class UnthemedQueryEditor extends PureComponent<Props, State> {
   state: State = { channels: [], channelFields: {} };
 
-  queryTypes: Array<SelectableValue<GrafanaQueryType>> = [
-    {
-      label: 'Random Walk',
-      value: GrafanaQueryType.RandomWalk,
-      description: 'Random signal within the selected time range',
-    },
-    {
-      label: 'Live Measurements',
-      value: GrafanaQueryType.LiveMeasurements,
-      description: 'Stream real-time measurements from Grafana',
-    },
-    {
-      label: 'List public files',
-      value: GrafanaQueryType.List,
-      description: 'Show directory listings for public resources',
-    },
-  ];
+  getQueryTypes(): Array<SelectableValue<GrafanaQueryType>> {
+    return [
+      {
+        label: t('grafana-testdata.query-editor.random-walk.label', 'Random Walk'),
+        value: GrafanaQueryType.RandomWalk,
+        description: t('grafana-testdata.query-editor.random-walk.description', 'Random signal within the selected time range'),
+      },
+      {
+        label: t('grafana-testdata.query-editor.live-measurements.label', 'Live Measurements'),
+        value: GrafanaQueryType.LiveMeasurements,
+        description: t('grafana-testdata.query-editor.live-measurements.description', 'Stream real-time measurements from Grafana'),
+      },
+      {
+        label: t('grafana-testdata.query-editor.list-public-files.label', 'List public files'),
+        value: GrafanaQueryType.List,
+        description: t('grafana-testdata.query-editor.list-public-files.description', 'Show directory listings for public resources'),
+      },
+    ];
+  }
 
   constructor(props: Props) {
     super(props);
+  }
+
+  getQueryTypesWithFeatureToggles(): Array<SelectableValue<GrafanaQueryType>> {
+    const queryTypes = this.getQueryTypes();
 
     if (config.featureToggles.panelTitleSearch && hasAlphaPanels) {
-      this.queryTypes.push({
-        label: 'Search',
+      queryTypes.push({
+        label: t('grafana-testdata.query-editor.search.label', 'Search'),
         value: GrafanaQueryType.Search,
-        description: 'Search for grafana resources',
+        description: t('grafana-testdata.query-editor.search.description', 'Search for grafana resources'),
       });
     }
     if (config.featureToggles.unifiedStorageSearchUI) {
-      this.queryTypes.push({
-        label: 'Search (experimental)',
+      queryTypes.push({
+        label: t('grafana-testdata.query-editor.search-experimental.label', 'Search (experimental)'),
         value: GrafanaQueryType.SearchNext,
-        description: 'Search for grafana resources',
+        description: t('grafana-testdata.query-editor.search-experimental.description', 'Search for grafana resources'),
       });
     }
     if (config.featureToggles.editPanelCSVDragAndDrop) {
-      this.queryTypes.push({
-        label: 'Spreadsheet or snapshot',
+      queryTypes.push({
+        label: t('grafana-testdata.query-editor.spreadsheet-or-snapshot.label', 'Spreadsheet or snapshot'),
         value: GrafanaQueryType.Snapshot,
-        description: 'Query an uploaded spreadsheet or a snapshot',
+        description: t('grafana-testdata.query-editor.spreadsheet-or-snapshot.description', 'Query an uploaded spreadsheet or a snapshot'),
       });
     }
+
+    return queryTypes;
   }
 
   loadChannelInfo() {
@@ -459,12 +469,12 @@ export class UnthemedQueryEditor extends PureComponent<Props, State> {
     const { queryType } = query;
 
     // Only show "snapshot" when it already exists
-    let queryTypes = this.queryTypes;
+    let queryTypes = this.getQueryTypesWithFeatureToggles();
     if (queryType === GrafanaQueryType.Snapshot && !config.featureToggles.editPanelCSVDragAndDrop) {
       queryTypes = [
-        ...this.queryTypes,
+        ...queryTypes,
         {
-          label: 'Snapshot',
+          label: t('grafana-testdata.query-editor.snapshot.label', 'Snapshot'),
           value: queryType,
         },
       ];
