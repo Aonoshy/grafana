@@ -3635,7 +3635,7 @@
     "category-border": "",
     "category-canvas": "",
     "category-color": "",
-    "category-data-links": "",
+    "category-data-links": "数据链接和操作",
     "category-line-style": "",
     "category-metric-value": "",
     "category-radius": "",
@@ -5657,7 +5657,7 @@
       }
     },
     "panel-data-alerting-tab": {
-      "tab-label": ""
+      "tab-label": "告警"
     },
     "panel-data-alerting-tab-rendered": {
       "alert": {
@@ -5675,7 +5675,7 @@
       "expression": "表达式"
     },
     "panel-data-transformations-tab": {
-      "tab-label": ""
+      "tab-label": "转换"
     },
     "panel-data-transformations-tab-rendered": {
       "add-another-transformation": "添加其他转换",
@@ -6455,12 +6455,12 @@
       "description-percentage-means-thresholds-relative": "百分比表示阈值相对于最小值和最大值的比例",
       "modes": {
         "description": {
-          "threshold-based-percent-between-minmax": "",
-          "thresholds-based-absolute-values": ""
+          "threshold-based-percent-between-minmax": "基于最小值/最大值之间的百分比选择阈值",
+          "thresholds-based-absolute-values": "基于绝对值选择阈值"
         },
         "label": {
-          "absolute": "",
-          "percentage": ""
+          "absolute": "绝对值",
+          "percentage": "百分比"
         }
       },
       "thresholds-mode": "阈值模式",
@@ -7577,6 +7577,37 @@
       }
     }
   },
+  "grafana-testdata": {
+    "query-editor": {
+      "random-walk": {
+        "label": "随机游走",
+        "description": "在选定时间范围内的随机信号"
+      },
+      "live-measurements": {
+        "label": "实时测量",
+        "description": "从 Grafana 流式传输实时测量数据"
+      },
+      "list-public-files": {
+        "label": "列出公共文件",
+        "description": "显示公共资源的目录列表"
+      },
+      "search": {
+        "label": "搜索",
+        "description": "搜索 Grafana 资源"
+      },
+      "search-experimental": {
+        "label": "搜索（实验性）",
+        "description": "搜索 Grafana 资源"
+      },
+      "spreadsheet-or-snapshot": {
+        "label": "电子表格或快照",
+        "description": "查询上传的电子表格或快照"
+      },
+      "snapshot": {
+        "label": "快照"
+      }
+    }
+  },
   "grafana-ui": {
     "action-editor": {
       "button": {
@@ -7615,85 +7646,85 @@
     },
     "builder": {
       "axis": {
-        "category-axis": "",
-        "color-label": "",
+        "category-axis": "坐标轴",
+        "color-label": "颜色",
         "color-options": {
-          "label-series": "",
-          "label-text": ""
+          "label-series": "系列",
+          "label-text": "文本"
         },
         "grid-line-options": {
-          "label-auto": "",
-          "label-off": "",
-          "label-on": ""
+          "label-auto": "自动",
+          "label-off": "关闭",
+          "label-on": "开启"
         },
-        "name-centered-zero": "",
-        "name-grid-lines": "",
-        "name-label": "",
-        "name-placement": "",
-        "name-scale": "",
-        "name-show-border": "",
-        "name-soft-max": "",
-        "name-soft-min": "",
-        "name-width": "",
-        "placeholder-label": "",
-        "placeholder-soft-max": "",
-        "placeholder-soft-min": "",
-        "placeholder-width": "",
+        "name-centered-zero": "零点居中",
+        "name-grid-lines": "网格线",
+        "name-label": "标签",
+        "name-placement": "位置",
+        "name-scale": "刻度",
+        "name-show-border": "显示边框",
+        "name-soft-max": "软最大值",
+        "name-soft-min": "软最小值",
+        "name-width": "宽度",
+        "placeholder-label": "可选文本",
+        "placeholder-soft-max": "自动",
+        "placeholder-soft-min": "自动",
+        "placeholder-width": "自动",
         "scale-distribution-editor": {
           "distribution-options": {
-            "label-linear": "",
-            "label-log": "",
-            "label-symlog": ""
+            "label-linear": "线性",
+            "label-log": "对数",
+            "label-symlog": "对称对数"
           }
         }
       },
-      "legend": {
-        "category": "",
-        "description-values": "",
+        "legend": {
+        "category": "图例",
+        "description-values": "选择要在图例中显示的值或计算",
         "mode-options": {
-          "label-list": "",
-          "label-table": ""
+          "label-list": "列表",
+          "label-table": "表格"
         },
-        "name-mode": "",
-        "name-placement": "",
-        "name-values": "",
-        "name-visibility": "",
-        "name-width": "",
+        "name-mode": "模式",
+        "name-placement": "位置",
+        "name-values": "值",
+        "name-visibility": "可见性",
+        "name-width": "宽度",
         "placement-options": {
-          "label-bottom": "",
-          "label-right": ""
+          "label-bottom": "底部",
+          "label-right": "右侧"
         }
       },
       "stacking": {
-        "name-stack-series": ""
+        "name-stack-series": "堆叠系列"
       },
       "text": {
-        "category-text-size": "",
-        "name-percent-change": "",
-        "name-title": "",
-        "name-value": "",
-        "placeholder-percent-change": "",
-        "placeholder-title": "",
-        "placeholder-value": ""
+        "category-text-size": "文本大小",
+        "name-percent-change": "百分比变化",
+        "name-title": "标题",
+        "name-value": "数值",
+        "placeholder-percent-change": "自动",
+        "placeholder-title": "标题",
+        "placeholder-value": "数值"
       },
       "tooltip": {
-        "category": "",
-        "description-hover-proximity": "",
+        "category": "工具提示",
+        "description-hover-proximity": "光标必须距离点多近才能触发工具提示（像素）",
         "modeOptions": {
-          "label-all": "",
-          "label-hidden": "",
-          "label-single": ""
+          "label-all": "全部",
+          "label-hidden": "隐藏",
+          "label-single": "单个"
         },
-        "name-hide-zeros": "",
-        "name-hover-proximity": "",
-        "name-max-height": "",
-        "name-max-width": "",
-        "name-tooltip-mode": "",
-        "name-values-sort-order": "",
+        "name-hide-zeros": "隐藏零值",
+        "name-hover-proximity": "悬停距离",
+        "name-max-height": "最大高度",
+        "name-max-width": "最大宽度",
+        "name-tooltip-mode": "工具提示模式",
+        "name-values-sort-order": "数值排列顺序",
         "sortOptions": {
-          "label-ascending": "",
-          "label-descending": "",
-          "label-none": ""
+          "label-ascending": "升序",
+          "label-descending": "降序",
+          "label-none": "无"
         }
       }
     },
@@ -7987,11 +8018,11 @@
       "config": {
         "get-graph-field-options": {
           "axis-placement": {
-            "description-auto": "",
-            "label-auto": "",
-            "label-hidden": "",
-            "label-left": "",
-            "label-right": ""
+            "description-auto": "第一个字段在左侧，其他都在右侧",
+            "label-auto": "自动",
+            "label-hidden": "隐藏",
+            "label-left": "左侧",
+            "label-right": "右侧"
           },
           "bar-alignment": {
             "description-after": "",
@@ -7999,18 +8030,18 @@
             "description-center": ""
           },
           "draw-style": {
-            "label-bars": "",
-            "label-lines": "",
-            "label-points": ""
+            "label-bars": "柱状图",
+            "label-lines": "线条",
+            "label-points": "点"
           },
           "fill-gradient": {
-            "description-hue": "",
-            "description-opacity": "",
-            "description-scheme": "",
-            "label-hue": "",
-            "label-none": "",
-            "label-opacity": "",
-            "label-scheme": ""
+            "description-hue": "基于系列色调的细微渐变",
+            "description-opacity": "启用填充透明度渐变",
+            "description-scheme": "使用配色方案定义渐变",
+            "label-hue": "色调",
+            "label-none": "无",
+            "label-opacity": "透明度",
+            "label-scheme": "配色方案"
           },
           "line-interpolation": {
             "description-linear": "",
@@ -8019,15 +8050,15 @@
             "description-step-before": ""
           },
           "show-points": {
-            "description-auto": "",
-            "label-always": "",
-            "label-auto": "",
-            "label-never": ""
+            "description-auto": "当密度较低时显示点",
+            "label-always": "始终",
+            "label-auto": "自动",
+            "label-never": "从不"
           },
           "stacking": {
-            "label-100": "",
-            "label-normal": "",
-            "label-off": ""
+            "label-100": "100%",
+            "label-normal": "正常",
+            "label-off": "关闭"
           },
           "thresholds-display-mode": {
             "label-dashed-lines": "",
@@ -8088,10 +8119,10 @@
     "category-cell-display": "",
     "category-colors": "",
     "category-exemplars": "",
-    "category-heatmap": "",
-    "category-legend": "",
-    "category-tooltip": "",
-    "category-y-axis": "",
+    "category-heatmap": "热力图",
+    "category-legend": "图例",
+    "category-tooltip": "工具提示",
+    "category-y-axis": "Y 轴",
     "mode-options": {
       "label-opacity": "",
       "label-scheme": ""
@@ -9668,36 +9699,36 @@
         "name-time-zone": ""
       },
       "standard-field-condigs": {
-        "category-data-links": ""
+        "category-data-links": "数据链接和操作"
       },
       "standard-field-configs": {
-        "category": "",
-        "category-thresholds": "",
-        "category-value-mappings": "",
-        "description-display-name": "",
-        "description-field-min-max": "",
-        "description-max": "",
-        "description-min": "",
-        "description-no-value": "",
-        "description-value-mappings": "",
-        "name-actions": "",
-        "name-ad-hoc": "",
-        "name-color-scheme": "",
-        "name-data-links": "",
-        "name-decimals": "",
-        "name-display-name": "",
-        "name-field-min-max": "",
-        "name-max": "",
-        "name-min": "",
-        "name-no-value": "",
-        "name-thresholds": "",
-        "name-unit": "",
-        "name-value-mappings": "",
-        "placeholder-decimals": "",
-        "placeholder-display-name": "",
-        "placeholder-max": "",
-        "placeholder-min": "",
-        "placeholder-unit": ""
+        "category": "标准选项",
+        "category-thresholds": "阈值",
+        "category-value-mappings": "值映射",
+        "description-display-name": "更改字段或系列名称",
+        "description-field-min-max": "计算每个字段的最小值和最大值",
+        "description-max": "留空则根据所有值计算",
+        "description-min": "留空则根据所有值计算",
+        "description-no-value": "没有值时显示的内容",
+        "description-value-mappings": "根据输入值修改显示文本",
+        "name-actions": "操作",
+        "name-ad-hoc": "致帧筛选",
+        "name-color-scheme": "配色方案",
+        "name-data-links": "数据链接",
+        "name-decimals": "小数位数",
+        "name-display-name": "显示名称",
+        "name-field-min-max": "字段最小最大值",
+        "name-max": "最大值",
+        "name-min": "最小值",
+        "name-no-value": "无值显示",
+        "name-thresholds": "阈值",
+        "name-unit": "单位",
+        "name-value-mappings": "值映射",
+        "placeholder-decimals": "自动",
+        "placeholder-display-name": "无",
+        "placeholder-max": "自动",
+        "placeholder-min": "自动",
+        "placeholder-unit": "无"
       }
     },
     "units": {
@@ -9852,25 +9883,25 @@
     "select-placeholder": "按类型筛选"
   },
   "piechart": {
-    "category-legend": "",
-    "category-pie-chart": "",
-    "description-labels": "",
-    "description-pie-chart-type": "",
+    "category-legend": "图例",
+    "category-pie-chart": "饼图选项",
+    "description-labels": "选择要在饼图中显示的标签",
+    "description-pie-chart-type": "选择饼图显示类型",
     "labels-options": {
-      "label-name": "",
-      "label-percent": "",
-      "label-value": ""
+      "label-name": "名称",
+      "label-percent": "百分比",
+      "label-value": "值"
     },
     "legend-values-options": {
-      "label-percent": "",
-      "label-value": ""
+      "label-percent": "百分比",
+      "label-value": "值"
     },
-    "name-labels": "",
-    "name-legend-values": "",
-    "name-pie-chart-type": "",
+    "name-labels": "标签",
+    "name-legend-values": "图例值",
+    "name-pie-chart-type": "饼图类型",
     "pie-chart-type-options": {
-      "label-donut": "",
-      "label-pie": ""
+      "label-donut": "甜甜圈",
+      "label-pie": "饼图"
     }
   },
   "playlist": {
@@ -10963,8 +10994,8 @@
       "duration-selected": "以当前所选间隔 {{durationAriaLabel}} 选择刷新时间间隔"
     },
     "auto-option": {
-      "aria-label": "",
-      "label": ""
+      "aria-label": "从查询范围选择刷新",
+      "label": "自动"
     },
     "live-option": {
       "aria-label": "开启直播流",
@@ -10973,6 +11004,9 @@
     "off-option": {
       "aria-label": "关闭自动刷新",
       "label": "关"
+    },
+    "refresh-button": {
+      "label": "刷新"
     },
     "tooltip": {
       "interval-selected": "设置自动刷新间隔",
@@ -11902,6 +11936,44 @@
       "empty-recent-list-info": "看起来您之前没有使用过这个时间选择器。一旦您输入了某些时间间隔，最近使用的间隔就会出现在此处。",
       "filter-placeholder": "搜索快速范围"
     },
+    "quick-options": {
+      "last-5-minutes": "过去5分钟",
+      "last-15-minutes": "过去15分钟",
+      "last-30-minutes": "过去30分钟",
+      "last-1-hour": "过去1小时",
+      "last-3-hours": "过去3小时",
+      "last-6-hours": "过去6小时",
+      "last-12-hours": "过去12小时",
+      "last-24-hours": "过去24小时",
+      "last-2-days": "过去2天",
+      "last-7-days": "过去7天",
+      "last-30-days": "过去30天",
+      "last-90-days": "过去90天",
+      "last-6-months": "过去6个月",
+      "last-1-year": "过去1年",
+      "last-2-years": "过去2年",
+      "last-5-years": "过去5年",
+      "yesterday": "昨天",
+      "day-before-yesterday": "前天",
+      "this-day-last-week": "上周的这一天",
+      "previous-week": "上周",
+      "previous-month": "上个月",
+      "previous-fiscal-quarter": "上一财政季度",
+      "previous-year": "去年",
+      "previous-fiscal-year": "上一财政年度",
+      "today": "今天",
+      "today-so-far": "今天到现在",
+      "this-week": "本周",
+      "this-week-so-far": "本周到现在",
+      "this-month": "本月",
+      "this-month-so-far": "本月到现在",
+      "this-year": "今年",
+      "this-year-so-far": "今年到现在",
+      "this-fiscal-quarter-so-far": "本财政季度到现在",
+      "this-fiscal-quarter": "本财政季度",
+      "this-fiscal-year-so-far": "本财政年度到现在",
+      "this-fiscal-year": "本财政年度"
+    },
     "copy-paste": {
       "copy-success-message": "时间范围已复制到剪贴板",
       "default-error-message": "{{error}} 不是一个有效的日期范围",
@@ -11970,54 +12042,54 @@
       "tooltip-delete": "删除",
       "tooltip-edit": "编辑"
     },
-    "category-axis": "",
+    "category-axis": "坐标轴",
     "config": {
       "get-graph-field-config": {
         "aria-label-bar-width-factor": "",
         "aria-label-fill-opacity": "",
         "aria-label-line-width": "",
         "aria-label-point-size": "",
-        "category-graph-styles": "",
-        "category-thresholds": "",
-        "name-bar-alignment": "",
-        "name-bar-width-factor": "",
-        "name-connect-nulls": "",
-        "name-disconnect-values": "",
-        "name-fill-below-to": "",
-        "name-fill-opacity": "",
-        "name-gradient-mode": "",
-        "name-line-interpolation": "",
-        "name-line-style": "",
-        "name-line-width": "",
-        "name-point-size": "",
-        "name-show-points": "",
-        "name-show-thresholds": "",
-        "name-style": "",
-        "name-transform": "",
+        "category-graph-styles": "图表样式",
+        "category-thresholds": "阈值",
+        "name-bar-alignment": "条形对齐",
+        "name-bar-width-factor": "条形宽度因子",
+        "name-connect-nulls": "连接空值",
+        "name-disconnect-values": "断开值",
+        "name-fill-below-to": "填充到下方",
+        "name-fill-opacity": "填充不透明度",
+        "name-gradient-mode": "渐变模式",
+        "name-line-interpolation": "线条插值",
+        "name-line-style": "线条样式",
+        "name-line-width": "线条宽度",
+        "name-point-size": "点大小",
+        "name-show-points": "显示点",
+        "name-show-thresholds": "显示阈值",
+        "name-style": "样式",
+        "name-transform": "变换",
         "transform-options": {
-          "description-constant": "",
-          "description-style": "",
-          "label-constant": "",
-          "label-style": ""
+          "description-constant": "第一个值将显示为常量线",
+          "description-style": "将结果翻转为Y轴上的负值",
+          "label-constant": "常量",
+          "label-style": "负Y轴"
         }
       }
     },
     "insert-nulls-editor": {
       "disconnect-options": {
-        "label-never": "",
-        "label-threshold": ""
+        "label-never": "从不",
+        "label-threshold": "阈值"
       }
     },
     "line-style-editor": {
       "line-fill-options": {
-        "label-dash": "",
-        "label-dots": "",
-        "label-solid": ""
+        "label-dash": "虚线",
+        "label-dots": "点线",
+        "label-solid": "实线"
       },
       "title-the-input-expects-a-segment-list": "输入应为一个线段列表",
       "tooltip-help": "帮助"
     },
-    "name-time-zone": "",
+    "name-time-zone": "时区",
     "nulls-threshold-input": {
       "placeholder-never": "从不"
     },
@@ -12027,9 +12099,9 @@
     },
     "span-nulls-editor": {
       "gaps-options": {
-        "label-always": "",
-        "label-never": "",
-        "label-threshold": ""
+        "label-always": "总是",
+        "label-never": "从不",
+        "label-threshold": "阈值"
       }
     },
     "timezones-editor": {
@@ -12038,17 +12110,17 @@
     }
   },
   "traces": {
-    "category-span-filters": "",
-    "name-critical-path-only": "",
-    "name-find-in-trace": "",
-    "name-max-duration": "",
-    "name-min-duration": "",
-    "name-service-name": "",
-    "name-service-name-operator": "",
-    "name-show-matches-only": "",
-    "name-span-name": "",
-    "name-span-name-operator": "",
-    "name-tags": "",
+    "category-span-filters": "跨度过滤器",
+    "name-critical-path-only": "仅显示关键路径",
+    "name-find-in-trace": "在追踪中查找",
+    "name-max-duration": "最大持续时间",
+    "name-min-duration": "最小持续时间",
+    "name-service-name": "服务名称",
+    "name-service-name-operator": "服务名称运算符",
+    "name-show-matches-only": "仅显示匹配项",
+    "name-span-name": "跨度名称",
+    "name-span-name-operator": "跨度名称运算符",
+    "name-tags": "标签",
     "traces-panel": {
       "no-data-found-in-response": "回复中未找到数据"
     }

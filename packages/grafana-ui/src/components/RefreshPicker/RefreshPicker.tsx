@@ -102,10 +102,13 @@ export class RefreshPicker extends PureComponent<Props> {
     const tooltipAutoRefreshOff = t('refresh-picker.tooltip.turned-off', 'Auto refresh off');
     const tooltipAutoRefresh = selectedValue.value === '' ? tooltipAutoRefreshOff : tooltipIntervalSelected;
 
+    // Use translated text for both empty text and hardcoded "Refresh"
+    const displayText = (!text || text === 'Refresh') ? t('refresh-picker.refresh-button.label', 'Refresh') : text;
+
     return (
       <ButtonGroup className="refresh-picker">
         <ToolbarButton
-          aria-label={text}
+          aria-label={displayText}
           tooltip={tooltip}
           onClick={onRefresh}
           variant={variant}
@@ -113,7 +116,7 @@ export class RefreshPicker extends PureComponent<Props> {
           style={width ? { width } : undefined}
           data-testid={selectors.components.RefreshPicker.runButtonV2}
         >
-          {text}
+          {displayText}
         </ToolbarButton>
         {!noIntervalPicker && (
           <ButtonSelect
