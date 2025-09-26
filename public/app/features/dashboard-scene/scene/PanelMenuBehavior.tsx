@@ -8,19 +8,18 @@ import {
   PluginExtensionPanelContext,
   PluginExtensionPoints,
   PluginExtensionTypes,
-  urlUtil,
 } from '@grafana/data';
 import { t } from '@grafana/i18n';
 import { config, locationService } from '@grafana/runtime';
 import { LocalValueVariable, sceneGraph, SceneGridRow, VizPanel, VizPanelMenu } from '@grafana/scenes';
 import { DataQuery, OptionsWithLegend } from '@grafana/schema';
 import appEvents from 'app/core/app_events';
-import { createErrorNotification } from 'app/core/copy/appNotification';
-import { notifyApp } from 'app/core/reducers/appNotification';
+// import { createErrorNotification } from 'app/core/copy/appNotification'; // 未使用
+// import { notifyApp } from 'app/core/reducers/appNotification'; // 未使用
 import { contextSrv } from 'app/core/services/context_srv';
-import { getMessageFromError } from 'app/core/utils/errors';
-import { getCreateAlertInMenuAvailability } from 'app/features/alerting/unified/utils/access-control';
-import { scenesPanelToRuleFormValues } from 'app/features/alerting/unified/utils/rule-form';
+// import { getMessageFromError } from 'app/core/utils/errors'; // 未使用
+// import { getCreateAlertInMenuAvailability } from 'app/features/alerting/unified/utils/access-control'; // 未使用
+// import { scenesPanelToRuleFormValues } from 'app/features/alerting/unified/utils/rule-form'; // 未使用
 import { getTrackingSource, shareDashboardType } from 'app/features/dashboard/components/ShareModal/utils';
 import { InspectTab } from 'app/features/inspector/types';
 import { getScenePanelLinksSupplier } from 'app/features/panel/panellinks/linkSuppliers';
@@ -28,7 +27,7 @@ import { createPluginExtensionsGetter } from 'app/features/plugins/extensions/ge
 import { pluginExtensionRegistries } from 'app/features/plugins/extensions/registry/setup';
 import { GetPluginExtensions } from 'app/features/plugins/extensions/types';
 import { createExtensionSubMenu } from 'app/features/plugins/extensions/utils';
-import { dispatch } from 'app/store/store';
+// import { dispatch } from 'app/store/store'; // 未使用
 import { AccessControlAction } from 'app/types/accessControl';
 import { ShowConfirmModalEvent } from 'app/types/events';
 
@@ -36,7 +35,7 @@ import { ShareDrawer } from '../sharing/ShareDrawer/ShareDrawer';
 import { ShareModal } from '../sharing/ShareModal';
 import { isInCloneChain } from '../utils/clone';
 import { DashboardInteractions } from '../utils/interactions';
-import { getEditPanelUrl, getInspectUrl, getViewPanelUrl, tryGetExploreUrlForPanel } from '../utils/urlBuilders';
+import { getEditPanelUrl, getInspectUrl, getViewPanelUrl } from '../utils/urlBuilders';
 import { getDashboardSceneFor, getPanelIdForVizPanel, getQueryRunnerFor, isLibraryPanel } from '../utils/utils';
 
 import { DashboardScene } from './DashboardScene';
@@ -72,14 +71,16 @@ export function panelMenuBehavior(menu: VizPanelMenu) {
     const moreSubMenu: PanelMenuItem[] = [];
     const dashboard = getDashboardSceneFor(panel);
     const { isEmbedded } = dashboard.state.meta;
-    const exploreMenuItem = await getExploreMenuItem(panel);
+    // const exploreMenuItem = await getExploreMenuItem(panel); // 隐藏探索选项
     const isReadOnlyRepeat = isInCloneChain(panel.state.key!);
 
     // For embedded dashboards we only have explore action for now
+    // 隐藏嵌入式仪表板的探索选项 - 根据甲方需求
     if (isEmbedded) {
-      if (exploreMenuItem) {
-        menu.setState({ items: [exploreMenuItem] });
-      }
+      // if (exploreMenuItem) {
+      //   menu.setState({ items: [exploreMenuItem] });
+      // }
+      menu.setState({ items: [] });
       return;
     }
 
@@ -260,15 +261,16 @@ export function panelMenuBehavior(menu: VizPanelMenu) {
       }
     }
 
-    const isCreateAlertMenuOptionAvailable = getCreateAlertInMenuAvailability();
+    // const isCreateAlertMenuOptionAvailable = getCreateAlertInMenuAvailability(); // 隐藏报警选项
 
-    if (isCreateAlertMenuOptionAvailable) {
-      moreSubMenu.push({
-        text: t('panel.header-menu.new-alert-rule', `New alert rule`),
-        iconClassName: 'bell',
-        onClick: (e) => onCreateAlert(panel),
-      });
-    }
+    // 隐藏新建报警规则选项 - 根据甲方需求
+    // if (isCreateAlertMenuOptionAvailable) {
+    //   moreSubMenu.push({
+    //     text: t('panel.header-menu.new-alert-rule', `New alert rule`),
+    //     iconClassName: 'bell',
+    //     onClick: (e) => onCreateAlert(panel),
+    //   });
+    // }
 
     if (hasLegendOptions(panel.state.options) && !isEditingPanel) {
       moreSubMenu.push({
@@ -295,9 +297,10 @@ export function panelMenuBehavior(menu: VizPanelMenu) {
       });
     }
 
-    if (exploreMenuItem) {
-      items.push(exploreMenuItem);
-    }
+    // 隐藏探索选项 - 根据甲方需求
+    // if (exploreMenuItem) {
+    //   items.push(exploreMenuItem);
+    // }
 
     items.push(getInspectMenuItem(plugin, panel, dashboard));
 
@@ -380,19 +383,20 @@ export function panelMenuBehavior(menu: VizPanelMenu) {
   asyncFunc();
 }
 
-async function getExploreMenuItem(panel: VizPanel): Promise<PanelMenuItem | undefined> {
-  const exploreUrl = await tryGetExploreUrlForPanel(panel);
-  if (!exploreUrl) {
-    return undefined;
-  }
+// 隐藏探索功能 - 根据甲方需求
+// async function getExploreMenuItem(panel: VizPanel): Promise<PanelMenuItem | undefined> {
+//   const exploreUrl = await tryGetExploreUrlForPanel(panel);
+//   if (!exploreUrl) {
+//     return undefined;
+//   }
 
-  return {
-    text: t('panel.header-menu.explore', `Explore`),
-    iconClassName: 'compass',
-    shortcut: 'p x',
-    href: exploreUrl,
-  };
-}
+//   return {
+//     text: t('panel.header-menu.explore', `Explore`),
+//     iconClassName: 'compass',
+//     shortcut: 'p x',
+//     href: exploreUrl,
+//   };
+// }
 
 function getInspectMenuItem(
   plugin: PanelPlugin | undefined,
@@ -553,20 +557,21 @@ export function onRemovePanel(dashboard: DashboardScene, panel: VizPanel) {
   );
 }
 
-const onCreateAlert = async (panel: VizPanel) => {
-  try {
-    const formValues = await scenesPanelToRuleFormValues(panel);
-    const ruleFormUrl = urlUtil.renderUrl('/alerting/new', {
-      defaults: JSON.stringify(formValues),
-      returnTo: window.location.pathname + window.location.search,
-    });
-    locationService.push(ruleFormUrl);
-  } catch (err) {
-    const message = `Error getting rule values from the panel: ${getMessageFromError(err)}`;
-    dispatch(notifyApp(createErrorNotification(message)));
-    return;
-  }
-};
+// 隐藏创建报警功能 - 根据甲方需求
+// const onCreateAlert = async (panel: VizPanel) => {
+//   try {
+//     const formValues = await scenesPanelToRuleFormValues(panel);
+//     const ruleFormUrl = urlUtil.renderUrl('/alerting/new', {
+//       defaults: JSON.stringify(formValues),
+//       returnTo: window.location.pathname + window.location.search,
+//     });
+//     locationService.push(ruleFormUrl);
+//   } catch (err) {
+//     const message = `Error getting rule values from the panel: ${getMessageFromError(err)}`;
+//     dispatch(notifyApp(createErrorNotification(message)));
+//     return;
+//   }
+// };
 
 export function toggleVizPanelLegend(vizPanel: VizPanel): void {
   const options = vizPanel.state.options;

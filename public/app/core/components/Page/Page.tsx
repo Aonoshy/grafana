@@ -35,19 +35,41 @@ export const Page: PageType = ({
 
   usePageTitle(navModel, pageNav);
 
-  const pageHeaderNav = pageNav ?? navModel?.node;
+  const pageHeaderNav = pageNav
+    ? pageNav
+    : navModel
+      ? navModel.node || navModel.main
+      : undefined;
+
+  const isDashboardBrowsePage = className?.includes("dashboard-browse-page");
+  const currentLocation = window.location;
+  const searchParams = new URLSearchParams(currentLocation.search);
+  const isDashboardPage = currentLocation.pathname.startsWith('/d/') ||
+    currentLocation.pathname.startsWith('/dashboard/') ||
+    searchParams.has('editPanel') ||
+    searchParams.has('viewPanel') ||
+    searchParams.has('editview') ||
+    className?.includes('page-dashboard');
+  const shouldHideNavigation = isDashboardBrowsePage || isDashboardPage;
 
   // We use useLayoutEffect here to make sure that the chrome is updated before the page is rendered
   // This prevents flickering sectionNav when going from dashboard to settings for example
   useLayoutEffect(() => {
-    if (navModel) {
+    if (navModel && !shouldHideNavigation) {
       chrome.update({
         sectionNav: navModel,
         pageNav: pageNav,
         layout: layout,
       });
+    } else if (shouldHideNavigation) {
+      chrome.update({
+        sectionNav: { node: { text: '' }, main: { text: '' } },
+        pageNav: undefined,
+        layout: layout,
+        chromeless: true,
+      });
     }
-  }, [navModel, pageNav, chrome, layout]);
+  }, [navModel, pageNav, chrome, layout, shouldHideNavigation]);
 
   return (
     <div className={cx(styles.wrapper, className)} {...otherProps}>
@@ -58,7 +80,7 @@ export const Page: PageType = ({
           onSetScrollRef={onSetScrollRef}
         >
           <div className={styles.pageInner}>
-            {pageHeaderNav && (
+            {pageHeaderNav && !shouldHideNavigation && (
               <PageHeader
                 actions={actions}
                 onEditTitle={onEditTitle}
@@ -68,7 +90,7 @@ export const Page: PageType = ({
                 subTitle={subTitle}
               />
             )}
-            {pageNav && pageNav.children && <PageTabs navItem={pageNav} />}
+            {pageNav && pageNav.children && !shouldHideNavigation && <PageTabs navItem={pageNav} />}
             <div className={styles.pageContent}>{children}</div>
           </div>
         </NativeScrollbar>

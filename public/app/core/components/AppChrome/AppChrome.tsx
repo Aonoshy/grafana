@@ -68,6 +68,14 @@ export function AppChrome({ children }: Props) {
   const url = pathname + search;
   const shouldShowReturnToPrevious = state.returnToPrevious && url !== state.returnToPrevious.href;
 
+  const searchParams = new URLSearchParams(search);
+  const isDashboardPage = pathname.startsWith('/d/') ||
+    pathname.startsWith('/dashboard/') ||
+    searchParams.has('editPanel') ||
+    searchParams.has('viewPanel') ||
+    searchParams.has('editview');
+  const shouldHideChrome = isDashboardPage || state.chromeless;
+
   // Clear returnToPrevious when the page is manually navigated to
   useEffect(() => {
     if (state.returnToPrevious && url === state.returnToPrevious.href) {
@@ -89,10 +97,10 @@ export function AppChrome({ children }: Props) {
   return (
     <div
       className={classNames('main-view', {
-        'main-view--chrome-hidden': state.chromeless,
+        'main-view--chrome-hidden': shouldHideChrome,
       })}
     >
-      {!state.chromeless && (
+      {!shouldHideChrome && (
         <>
           <LinkButton className={styles.skipLink} href="#pageContent">
             <Trans i18nKey="app-chrome.skip-content-button">Skip to main content</Trans>

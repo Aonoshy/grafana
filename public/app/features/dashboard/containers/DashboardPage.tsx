@@ -21,6 +21,9 @@ import { KioskMode } from 'app/types/dashboard';
 import { PanelEditEnteredEvent, PanelEditExitedEvent } from 'app/types/events';
 import { StoreState } from 'app/types/store';
 
+// 引入仪表板页面样式覆盖
+import '../../../features/browse-dashboards/styles/grafana-overrides.scss';
+
 import { cancelVariables, templateVarsChangedInUrl } from '../../variables/state/actions';
 import { findTemplateVarChanges } from '../../variables/utils';
 import { DashNav } from '../components/DashNav';

@@ -1,24 +1,14 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom-v5-compat';
 
-import { locationUtil } from '@grafana/data';
-import { config, locationService, reportInteraction } from '@grafana/runtime';
-import { Button, Drawer, Dropdown, Icon, Menu, MenuItem } from '@grafana/ui';
-import { useAppNotification } from 'app/core/copy/appNotification';
-import { useIsProvisionedInstance } from 'app/features/provisioning/hooks/useIsProvisionedInstance';
+import { config, reportInteraction } from '@grafana/runtime';
+import { Dropdown, Icon, Menu, MenuItem } from '@grafana/ui';
 import {
   getImportPhrase,
   getNewDashboardPhrase,
-  getNewFolderPhrase,
   getNewPhrase,
 } from 'app/features/search/tempI18nPhrases';
 import { FolderDTO } from 'app/types/folders';
-
-import { ManagerKind } from '../../apiserver/types';
-import { useNewFolderMutation } from '../api/browseDashboardsAPI';
-
-import { NewFolderForm } from './NewFolderForm';
-import { NewProvisionedFolderForm } from './NewProvisionedFolderForm';
 
 interface Props {
   parentFolder?: FolderDTO;
@@ -29,42 +19,12 @@ interface Props {
 export default function CreateNewButton({ parentFolder, canCreateDashboard, canCreateFolder }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const [newFolder] = useNewFolderMutation();
-  const [showNewFolderDrawer, setShowNewFolderDrawer] = useState(false);
-  const notifyApp = useAppNotification();
-  const isProvisionedInstance = useIsProvisionedInstance();
-
-  const onCreateFolder = async (folderName: string) => {
-    try {
-      const folder = await newFolder({
-        title: folderName,
-        parentUid: parentFolder?.uid,
-      });
-
-      const depth = parentFolder?.parents ? parentFolder.parents.length + 1 : 0;
-      reportInteraction('grafana_manage_dashboards_folder_created', {
-        is_subfolder: Boolean(parentFolder?.uid),
-        folder_depth: depth,
-      });
-
-      if (!folder.error) {
-        notifyApp.success('Folder created');
-      } else {
-        notifyApp.error('Failed to create folder');
-      }
-
-      if (folder.data) {
-        locationService.push(locationUtil.stripBaseFromUrl(folder.data.url));
-      }
-    } finally {
-      setShowNewFolderDrawer(false);
-    }
-  };
 
   const newMenu = (
-    <Menu>
+    <Menu className="yh-dropdown">
       {canCreateDashboard && (
         <MenuItem
+          className="dropdown-item"
           label={getNewDashboardPhrase()}
           onClick={() =>
             reportInteraction('grafana_menu_item_clicked', {
@@ -75,9 +35,9 @@ export default function CreateNewButton({ parentFolder, canCreateDashboard, canC
           url={buildUrl('/dashboard/new', parentFolder?.uid)}
         />
       )}
-      {canCreateFolder && <MenuItem onClick={() => setShowNewFolderDrawer(true)} label={getNewFolderPhrase()} />}
       {canCreateDashboard && (
         <MenuItem
+          className="dropdown-item"
           label={getImportPhrase()}
           onClick={() =>
             reportInteraction('grafana_menu_item_clicked', {
@@ -94,25 +54,11 @@ export default function CreateNewButton({ parentFolder, canCreateDashboard, canC
   return (
     <>
       <Dropdown overlay={newMenu} onVisibleChange={setIsOpen}>
-        <Button>
+        <button type="button" className="yh-button yh-button-primary">
           {getNewPhrase()}
           <Icon name={isOpen ? 'angle-up' : 'angle-down'} />
-        </Button>
+        </button>
       </Dropdown>
-      {showNewFolderDrawer && (
-        <Drawer
-          title={getNewFolderPhrase()}
-          subtitle={parentFolder?.title ? `Location: ${parentFolder.title}` : undefined}
-          onClose={() => setShowNewFolderDrawer(false)}
-          size="sm"
-        >
-          {parentFolder?.managedBy === ManagerKind.Repo || isProvisionedInstance ? (
-            <NewProvisionedFolderForm onDismiss={() => setShowNewFolderDrawer(false)} parentFolder={parentFolder} />
-          ) : (
-            <NewFolderForm onConfirm={onCreateFolder} onCancel={() => setShowNewFolderDrawer(false)} />
-          )}
-        </Drawer>
-      )}
     </>
   );
 }

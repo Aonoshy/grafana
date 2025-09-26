@@ -4,27 +4,23 @@ import { memo, useEffect, useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom-v5-compat';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import { GrafanaTheme2 } from '@grafana/data';
+import { PageLayoutType, GrafanaTheme2 } from '@grafana/data';
 import { Trans } from '@grafana/i18n';
-import { config, reportInteraction } from '@grafana/runtime';
-import { LinkButton, FilterInput, useStyles2, Text, Stack } from '@grafana/ui';
+import { useStyles2 } from '@grafana/ui';
 import { Page } from 'app/core/components/Page/Page';
-import { getConfig } from 'app/core/config';
 import { useDispatch } from 'app/types/store';
 
-import { FolderRepo } from '../../core/components/NestedFolderPicker/FolderRepo';
-import { contextSrv } from '../../core/services/context_srv';
 import { ManagerKind } from '../apiserver/types';
-import { buildNavModel, getDashboardsTabID } from '../folders/state/navModel';
 import { useSearchStateManager } from '../search/state/SearchStateManager';
-import { getSearchPlaceholder } from '../search/tempI18nPhrases';
+import { SearchLayout } from '../search/types';
 
-import { useGetFolderQuery, useSaveFolderMutation } from './api/browseDashboardsAPI';
+import './styles/custom-theme.scss';
+import './styles/grafana-overrides.scss';
+
+import { useGetFolderQuery } from './api/browseDashboardsAPI';
 import { BrowseActions } from './components/BrowseActions/BrowseActions';
-import { BrowseFilters } from './components/BrowseFilters';
 import { BrowseView } from './components/BrowseView';
 import CreateNewButton from './components/CreateNewButton';
-import { FolderActionsButton } from './components/FolderActionsButton';
 import { ProvisionedFolderPreviewBanner } from './components/ProvisionedFolderPreviewBanner';
 import { SearchView } from './components/SearchView';
 import { getFolderPermissions } from './permissions';
@@ -44,6 +40,9 @@ const BrowseDashboardsPage = memo(({ queryParams }: { queryParams: Record<string
 
   useEffect(() => {
     stateManager.initStateFromUrl(folderUID);
+
+    stateManager.onSortChange('name_sort');
+    stateManager.onLayoutChange(SearchLayout.Folders);
 
     // Clear selected state when folderUID changes
     dispatch(
@@ -65,27 +64,9 @@ const BrowseDashboardsPage = memo(({ queryParams }: { queryParams: Record<string
     if (!isSearching && searchState.result) {
       stateManager.setState({ result: undefined, includePanels: undefined });
     }
-    if (isSearching && searchState.result?.totalRows === 0) {
-      reportInteraction('grafana_empty_state_shown', { source: 'browse_dashboards' });
-    }
   }, [isSearching, searchState.result, stateManager]);
 
   const { data: folderDTO } = useGetFolderQuery(folderUID ?? skipToken);
-  const [saveFolder] = useSaveFolderMutation();
-  const navModel = useMemo(() => {
-    if (!folderDTO) {
-      return undefined;
-    }
-    const model = buildNavModel(folderDTO);
-
-    // Set the "Dashboards" tab to active
-    const dashboardsTabID = getDashboardsTabID(folderDTO.uid);
-    const dashboardsTab = model.children?.find((child) => child.id === dashboardsTabID);
-    if (dashboardsTab) {
-      dashboardsTab.active = true;
-    }
-    return model;
-  }, [folderDTO]);
 
   const hasSelection = useHasSelection();
 
@@ -93,107 +74,114 @@ const BrowseDashboardsPage = memo(({ queryParams }: { queryParams: Record<string
   const { data: rootFolderDTO } = useGetFolderQuery(folderDTO ? skipToken : 'general');
   const folder = folderDTO ?? rootFolderDTO;
 
-  const { canEditFolders, canEditDashboards, canCreateDashboards, canCreateFolders } = getFolderPermissions(folder);
-  const hasAdminRights = contextSrv.hasRole('Admin') || contextSrv.isGrafanaAdmin;
+  const { canEditFolders, canEditDashboards, canCreateDashboards } = getFolderPermissions(folder);
   const isProvisionedFolder = folder?.managedBy === ManagerKind.Repo;
-  const showEditTitle = canEditFolders && folderUID && !isProvisionedFolder;
   const canSelect = (canEditFolders || canEditDashboards) && !isProvisionedFolder;
-  const onEditTitle = async (newValue: string) => {
-    if (folderDTO) {
-      const result = await saveFolder({
-        ...folderDTO,
-        title: newValue,
-      });
-      if ('error' in result) {
-        reportInteraction('grafana_browse_dashboards_page_edit_folder_name', {
-          status: 'failed_with_error',
-        });
-        throw result.error;
-      } else {
-        reportInteraction('grafana_browse_dashboards_page_edit_folder_name', { status: 'success' });
-      }
-    } else {
-      reportInteraction('grafana_browse_dashboards_page_edit_folder_name', { status: 'failed_no_folderDTO' });
-    }
-  };
 
-  const handleButtonClickToRecentlyDeleted = () => {
-    reportInteraction('grafana_browse_dashboards_page_button_to_recently_deleted', {
-      origin: window.location.pathname === getConfig().appSubUrl + '/dashboards' ? 'Dashboards' : 'Folder view',
-    });
-  };
-
-  const renderTitle = (title: string) => {
-    return (
-      <Stack alignItems={'center'} gap={2}>
-        <Text element={'h1'}>{title}</Text> <FolderRepo folder={folder} />
-      </Stack>
-    );
-  };
+  const dashboardNavModel = useMemo(() => ({
+    main: { text: '', id: 'dashboards' },
+    node: { text: '', id: 'dashboards' }
+  }), []);
 
   return (
-    <Page
-      navId="dashboards/browse"
-      pageNav={navModel}
-      onEditTitle={showEditTitle ? onEditTitle : undefined}
-      renderTitle={renderTitle}
-      actions={
-        <>
-          {config.featureToggles.restoreDashboards && hasAdminRights && (
-            <LinkButton
-              variant="secondary"
-              href={getConfig().appSubUrl + '/dashboard/recently-deleted'}
-              onClick={handleButtonClickToRecentlyDeleted}
-            >
-              <Trans i18nKey="browse-dashboards.actions.button-to-recently-deleted">Recently deleted</Trans>
-            </LinkButton>
-          )}
-          {folderDTO && <FolderActionsButton folder={folderDTO} />}
-          {(canCreateDashboards || canCreateFolders) && (
-            <CreateNewButton
-              parentFolder={folderDTO}
-              canCreateDashboard={canCreateDashboards}
-              canCreateFolder={canCreateFolders}
-            />
-          )}
-        </>
-      }
-    >
+    <Page navModel={dashboardNavModel} layout={PageLayoutType.Canvas} className="dashboard-browse-page">
       <Page.Contents className={styles.pageContents}>
         <ProvisionedFolderPreviewBanner queryParams={queryParams} />
-        <div>
-          <FilterInput
-            placeholder={getSearchPlaceholder(searchState.includePanels)}
-            value={searchState.query}
-            escapeRegex={false}
-            onChange={(e) => stateManager.onQueryChange(e)}
-          />
+
+        <div className="search-table">
+          <div className="search-form">
+            <div className="form-item">
+              <label htmlFor="dashboard-name-input" className="form-label">仪表板名称：</label>
+              <input
+                id="dashboard-name-input"
+                type="text"
+                className="search-input"
+                placeholder="请输入仪表板名称"
+                value={searchState.query}
+                onChange={(e) => stateManager.onQueryChange(e.target.value)}
+              />
+            </div>
+
+            <div className="form-item">
+              <label htmlFor="tags-input" className="form-label">标签：</label>
+              <input
+                id="tags-input"
+                type="text"
+                className="search-input"
+                placeholder="请输入标签"
+                value={searchState.tag.join(',')}
+                onChange={(e) => {
+                  const tags = e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : [];
+                  stateManager.onTagFilterChange(tags);
+                }}
+              />
+            </div>
+
+
+            <div className="operation-search">
+              <button
+                type="button"
+                className="yh-button yh-button-primary"
+                onClick={() => {
+                  if (stateManager.hasSearchFilters()) {
+                    stateManager.onQueryChange(searchState.query);
+                  }
+                }}
+              >
+                <Trans i18nKey="search.button.search">查询</Trans>
+              </button>
+              <button
+                type="button"
+                className="yh-button yh-button-default"
+                onClick={() => {
+                  stateManager.onQueryChange('');
+                  stateManager.onTagFilterChange([]);
+                }}
+              >
+                <Trans i18nKey="search.button.reset">重置</Trans>
+              </button>
+              {canCreateDashboards && (
+                <CreateNewButton
+                  parentFolder={folderDTO}
+                  canCreateDashboard={canCreateDashboards}
+                  canCreateFolder={false}
+                />
+              )}
+            </div>
+          </div>
         </div>
 
-        {hasSelection ? (
-          <BrowseActions />
-        ) : (
-          <div className={styles.filters}>
-            <BrowseFilters />
-          </div>
-        )}
+        <div className="dashboard-list-area">
+          <div className="dashboard-card">
+            <div className="dashboard-card-header">
+              <div className="dashboard-card-title">仪表盘列表</div>
+              {hasSelection && (
+                <div className="dashboard-card-actions">
+                  <BrowseActions />
+                </div>
+              )}
+            </div>
 
-        <div className={styles.subView}>
-          <AutoSizer>
-            {({ width, height }) =>
-              isSearching ? (
-                <SearchView
-                  canSelect={canSelect}
-                  width={width}
-                  height={height}
-                  searchState={searchState}
-                  searchStateManager={stateManager}
-                />
-              ) : (
-                <BrowseView canSelect={canSelect} width={width} height={height} folderUID={folderUID} />
-              )
-            }
-          </AutoSizer>
+            <div className="dashboard-card-content">
+              <div className={styles.subView}>
+                <AutoSizer>
+                  {({ width, height }) =>
+                    isSearching ? (
+                      <SearchView
+                        canSelect={canSelect}
+                        width={width}
+                        height={height}
+                        searchState={searchState}
+                        searchStateManager={stateManager}
+                      />
+                    ) : (
+                      <BrowseView canSelect={canSelect} width={width} height={height} folderUID={folderUID} />
+                    )
+                  }
+                </AutoSizer>
+              </div>
+            </div>
+          </div>
         </div>
       </Page.Contents>
     </Page>
@@ -205,12 +193,14 @@ const getStyles = (theme: GrafanaTheme2) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
-    height: '100%',
+    height: '100vh',
+    padding: theme.spacing(2),
   }),
 
-  // AutoSizer needs an element to measure the full height available
   subView: css({
-    height: '100%',
+    height: '500px',
+    minHeight: '400px',
+    flex: 1,
   }),
 
   filters: css({

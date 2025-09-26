@@ -1,13 +1,13 @@
-import { PanelMenuItem, urlUtil, PluginExtensionLink } from '@grafana/data';
+import { PanelMenuItem, PluginExtensionLink } from '@grafana/data';
 import { t } from '@grafana/i18n';
 import { locationService } from '@grafana/runtime';
-import { createErrorNotification } from 'app/core/copy/appNotification';
-import { notifyApp } from 'app/core/reducers/appNotification';
+// import { createErrorNotification } from 'app/core/copy/appNotification'; // 未使用
+// import { notifyApp } from 'app/core/reducers/appNotification'; // 未使用
 import { contextSrv } from 'app/core/services/context_srv';
-import { getMessageFromError } from 'app/core/utils/errors';
-import { getExploreUrl } from 'app/core/utils/explore';
-import { RuleFormValues } from 'app/features/alerting/unified/types/rule-form';
-import { panelToRuleFormValues } from 'app/features/alerting/unified/utils/rule-form';
+// import { getMessageFromError } from 'app/core/utils/errors'; // 未使用
+// import { getExploreUrl } from 'app/core/utils/explore'; // 未使用
+// import { RuleFormValues } from 'app/features/alerting/unified/types/rule-form'; // 未使用
+// import { panelToRuleFormValues } from 'app/features/alerting/unified/utils/rule-form'; // 未使用
 import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
 import { PanelModel } from 'app/features/dashboard/state/PanelModel';
 import {
@@ -22,12 +22,12 @@ import {
 import { InspectTab } from 'app/features/inspector/types';
 import { isPanelModelLibraryPanel } from 'app/features/library-panels/guard';
 import { createExtensionSubMenu } from 'app/features/plugins/extensions/utils';
-import { SHARED_DASHBOARD_QUERY } from 'app/plugins/datasource/dashboard/constants';
-import { dispatch, store } from 'app/store/store';
+// import { SHARED_DASHBOARD_QUERY } from 'app/plugins/datasource/dashboard/constants'; // 未使用
+// import { dispatch } from 'app/store/store'; // 未使用
 
-import { getCreateAlertInMenuAvailability } from '../../alerting/unified/utils/access-control';
-import { navigateToExplore } from '../../explore/state/main';
-import { getTimeSrv } from '../services/TimeSrv';
+// import { getCreateAlertInMenuAvailability } from '../../alerting/unified/utils/access-control'; // 未使用
+// import { navigateToExplore } from '../../explore/state/main'; // 未使用
+// import { getTimeSrv } from '../services/TimeSrv'; // 未使用
 
 export function getPanelMenu(
   dashboard: DashboardModel,
@@ -85,17 +85,18 @@ export function getPanelMenu(
     removePanel(dashboard, panel, true);
   };
 
-  const onNavigateToExplore = (event: React.MouseEvent) => {
-    event.preventDefault();
-    const openInNewWindow = event.ctrlKey || event.metaKey ? (url: string) => window.open(url) : undefined;
-    store.dispatch(
-      navigateToExplore(panel, {
-        timeRange: getTimeSrv().timeRange(),
-        getExploreUrl,
-        openInNewWindow,
-      }) as any
-    );
-  };
+  // 隐藏探索功能 - 根据甲方需求
+  // const onNavigateToExplore = (event: React.MouseEvent) => {
+  //   event.preventDefault();
+  //   const openInNewWindow = event.ctrlKey || event.metaKey ? (url: string) => window.open(url) : undefined;
+  //   store.dispatch(
+  //     navigateToExplore(panel, {
+  //       timeRange: getTimeSrv().timeRange(),
+  //       getExploreUrl,
+  //       openInNewWindow,
+  //     }) as any
+  //   );
+  // };
 
   const onToggleLegend = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -129,18 +130,19 @@ export function getPanelMenu(
     shortcut: 'p s',
   });
 
-  if (
-    contextSrv.hasAccessToExplore() &&
-    !(panel.plugin && panel.plugin.meta.skipDataQuery) &&
-    panel.datasource?.uid !== SHARED_DASHBOARD_QUERY
-  ) {
-    menu.push({
-      text: t('panel.header-menu.explore', `Explore`),
-      iconClassName: 'compass',
-      onClick: onNavigateToExplore,
-      shortcut: 'p x',
-    });
-  }
+  // 隐藏探索选项 - 根据甲方需求
+  // if (
+  //   contextSrv.hasAccessToExplore() &&
+  //   !(panel.plugin && panel.plugin.meta.skipDataQuery) &&
+  //   panel.datasource?.uid !== SHARED_DASHBOARD_QUERY
+  // ) {
+  //   menu.push({
+  //     text: t('panel.header-menu.explore', `Explore`),
+  //     iconClassName: 'compass',
+  //     onClick: onNavigateToExplore,
+  //     shortcut: 'p x',
+  //   });
+  // }
 
   const inspectMenu: PanelMenuItem[] = [];
 
@@ -172,31 +174,33 @@ export function getPanelMenu(
     subMenu: inspectMenu,
   });
 
-  const createAlert = async () => {
-    let formValues: Partial<RuleFormValues> | undefined;
-    try {
-      formValues = await panelToRuleFormValues(panel, dashboard);
-    } catch (err) {
-      const message = `Error getting rule values from the panel: ${getMessageFromError(err)}`;
-      dispatch(notifyApp(createErrorNotification(message)));
-      return;
-    }
-    const ruleFormUrl = urlUtil.renderUrl('/alerting/new', {
-      defaults: JSON.stringify(formValues),
-      returnTo: window.location.pathname + window.location.search,
-    });
+  // 隐藏创建报警功能 - 根据甲方需求
+  // const createAlert = async () => {
+  //   let formValues: Partial<RuleFormValues> | undefined;
+  //   try {
+  //     formValues = await panelToRuleFormValues(panel, dashboard);
+  //   } catch (err) {
+  //     const message = `Error getting rule values from the panel: ${getMessageFromError(err)}`;
+  //     dispatch(notifyApp(createErrorNotification(message)));
+  //     return;
+  //   }
+  //   const ruleFormUrl = urlUtil.renderUrl('/alerting/new', {
+  //     defaults: JSON.stringify(formValues),
+  //     returnTo: window.location.pathname + window.location.search,
+  //   });
 
-    locationService.push(ruleFormUrl);
-  };
+  //   locationService.push(ruleFormUrl);
+  // };
 
-  const onCreateAlert = (event: React.MouseEvent) => {
-    event.preventDefault();
-    createAlert();
-  };
+  // 隐藏创建报警功能 - 根据甲方需求
+  // const onCreateAlert = (event: React.MouseEvent) => {
+  //   event.preventDefault();
+  //   createAlert();
+  // };
 
   const subMenu: PanelMenuItem[] = [];
   const canEdit = dashboard.canEditPanel(panel);
-  const isCreateAlertMenuOptionAvailable = getCreateAlertInMenuAvailability();
+  // const isCreateAlertMenuOptionAvailable = getCreateAlertInMenuAvailability(); // 隐藏报警选项
 
   if (!(panel.isViewing || panel.isEditing)) {
     if (canEdit) {
@@ -231,12 +235,13 @@ export function getPanelMenu(
     }
   }
 
-  if (isCreateAlertMenuOptionAvailable) {
-    subMenu.push({
-      text: t('panel.header-menu.new-alert-rule', `New alert rule`),
-      onClick: onCreateAlert,
-    });
-  }
+  // 隐藏新建报警规则选项 - 根据甲方需求
+  // if (isCreateAlertMenuOptionAvailable) {
+  //   subMenu.push({
+  //     text: t('panel.header-menu.new-alert-rule', `New alert rule`),
+  //     onClick: onCreateAlert,
+  //   });
+  // }
 
   if (panel.options.legend) {
     subMenu.push({
@@ -251,12 +256,13 @@ export function getPanelMenu(
   // When editing hide most actions
   if (panel.isEditing) {
     subMenu.length = 0;
-    if (isCreateAlertMenuOptionAvailable) {
-      subMenu.push({
-        text: t('panel.header-menu.new-alert-rule', `New alert rule`),
-        onClick: onCreateAlert,
-      });
-    }
+    // 隐藏编辑状态下的新建报警规则选项 - 根据甲方需求
+    // if (isCreateAlertMenuOptionAvailable) {
+    //   subMenu.push({
+    //     text: t('panel.header-menu.new-alert-rule', `New alert rule`),
+    //     onClick: onCreateAlert,
+    //   });
+    // }
   }
 
   if (canEdit && panel.plugin && !panel.plugin.meta.skipDataQuery) {

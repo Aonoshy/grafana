@@ -34,9 +34,9 @@ interface DashboardsTreeProps {
   requestLoadMore: (folderUid: string | undefined) => void;
 }
 
-const HEADER_HEIGHT = 36;
-const ROW_HEIGHT = 36;
-const DIVIDER_HEIGHT = 0; // Yes - make it appear as a border on the row rather than a row itself
+const HEADER_HEIGHT = 40;
+const ROW_HEIGHT = 48;
+const DIVIDER_HEIGHT = 0;
 
 export function DashboardsTree({
   items,
@@ -81,7 +81,13 @@ export function DashboardsTree({
       id: 'name',
       width: 3,
       Header: (
-        <span style={{ paddingLeft: 24 }}>
+        <span style={{
+          paddingLeft: 24,
+          fontSize: '14px',
+          fontWeight: 500,
+          color: '#333333',
+          fontFamily: 'PingFangSC, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif'
+        }}>
           <Trans i18nKey="browse-dashboards.dashboards-tree.name-column">Name</Trans>
         </span>
       ),
@@ -91,7 +97,16 @@ export function DashboardsTree({
     const tagsColumns: DashboardsTreeColumn = {
       id: 'tags',
       width: 2,
-      Header: t('browse-dashboards.dashboards-tree.tags-column', 'Tags'),
+      Header: (
+        <span style={{
+          fontSize: '14px',
+          fontWeight: 500,
+          color: '#333333',
+          fontFamily: 'PingFangSC, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif'
+        }}>
+          {t('browse-dashboards.dashboards-tree.tags-column', 'Tags')}
+        </span>
+      ),
       Cell: TagsCell,
     };
     const columns = [canSelect && checkboxColumn, nameColumn, tagsColumns].filter(isTruthy);
@@ -254,36 +269,47 @@ const getStyles = (theme: GrafanaTheme2) => {
 
     row: css({
       gap: theme.spacing(1),
+      fontFamily: 'PingFangSC, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
     }),
 
     divider: css({
-      borderTop: `1px solid ${theme.colors.border.weak}`,
+      borderTop: '1px solid #f5f5f5',
       width: '100%',
       margin: 0,
     }),
 
     headerRow: css({
-      backgroundColor: theme.colors.background.secondary,
-      height: HEADER_HEIGHT,
+      backgroundColor: '#fafafa',
+      height: 40,
+      borderBottom: '1px solid #f5f5f5',
     }),
 
     bodyRow: css({
-      height: ROW_HEIGHT,
+      height: 48,
+      borderBottom: '1px solid #f5f5f5',
 
       '&:hover': {
-        backgroundColor: theme.colors.action.hover,
+        backgroundColor: 'rgba(51, 133, 255, 0.05)',
       },
     }),
 
     cell: css({
-      padding: theme.spacing(1),
-      overflow: 'hidden', // Required so flex children can do text-overflow: ellipsis
+      padding: '12px 16px',
+      overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
+      fontSize: '14px',
+      color: '#333333',
+      fontFamily: 'PingFangSC, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
     }),
 
     link: css({
+      color: '#3385ff',
+      textDecoration: 'none',
+      fontFamily: 'PingFangSC, "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+
       '&:hover': {
+        color: '#5c9dff',
         textDecoration: 'underline',
       },
     }),
