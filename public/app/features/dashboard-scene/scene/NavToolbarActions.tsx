@@ -153,8 +153,8 @@ export function ToolbarActions({ dashboard }: Props) {
     render: () => (
       <Button
         key="add-visualization-button"
-        className={clientStyles.clientPrimaryButton}
-        variant="primary"
+        className={clientStyles.clientSecondaryButton}
+        variant="secondary"
         size="sm"
         onClick={() => {
           const vizPanel = dashboard.onCreateNewPanel();
@@ -174,8 +174,8 @@ export function ToolbarActions({ dashboard }: Props) {
     render: () => (
       <Button
         key="add-row-button"
-        className={clientStyles.clientPrimaryButton}
-        variant="primary"
+        className={clientStyles.clientSecondaryButton}
+        variant="secondary"
         size="sm"
         onClick={() => {
           dashboard.onCreateNewRow();
@@ -241,7 +241,7 @@ export function ToolbarActions({ dashboard }: Props) {
         }}
         tooltip=""
         key="back"
-        className={clientStyles.clientBackButton}
+        className={clientStyles.clientSecondaryButton}
         variant="secondary"
         size="sm"
         icon="arrow-left"
@@ -262,7 +262,7 @@ export function ToolbarActions({ dashboard }: Props) {
         }}
         tooltip=""
         key="back"
-        className={clientStyles.clientBackButton}
+        className={clientStyles.clientSecondaryButton}
         variant="secondary"
         size="sm"
         icon="arrow-left"
@@ -306,8 +306,8 @@ export function ToolbarActions({ dashboard }: Props) {
         }}
         tooltip={t('dashboard.toolbar.edit.tooltip', 'Enter edit mode')}
         key="edit"
-        className={clientStyles.clientPrimaryButton}
-        variant="primary"
+        className={clientStyles.clientSecondaryButton}
+        variant="secondary"
         size="sm"
         data-testid={selectors.components.NavToolbar.editDashboard.editButton}
       >
@@ -380,8 +380,8 @@ export function ToolbarActions({ dashboard }: Props) {
         tooltip={t('dashboard.toolbar.exit-edit-mode.tooltip', 'Exits edit mode and discards unsaved changes')}
         size="sm"
         key="discard"
-        className={clientStyles.clientPrimaryButton}
-        variant="primary"
+        className={clientStyles.clientSecondaryButton}
+        variant="secondary"
         data-testid={selectors.components.NavToolbar.editDashboard.exitButton}
       >
         <Trans i18nKey="dashboard.toolbar.exit-edit-mode.label">退出编辑</Trans>
@@ -403,8 +403,8 @@ export function ToolbarActions({ dashboard }: Props) {
         size="sm"
         disabled={!isEditedPanelDirty}
         key="discard"
-        className={isEditedPanelDirty ? clientStyles.clientPrimaryButton : clientStyles.clientSecondaryButton}
-        variant={isEditedPanelDirty ? "primary" : "secondary"}
+        className={clientStyles.clientSecondaryButton}
+        variant="secondary"
         data-testid={selectors.components.NavToolbar.editDashboard.discardChangesButton}
       >
         {editPanel?.state.isNewPanel ? (
@@ -462,7 +462,7 @@ export function ToolbarActions({ dashboard }: Props) {
         size="sm"
         key="saveLibraryPanel"
         fill="outline"
-        variant="primary"
+        variant="secondary"
         data-testid={selectors.components.NavToolbar.editDashboard.saveLibraryPanelButton}
       >
         <Trans i18nKey="dashboard.toolbar.save-library-panel">Save library panel</Trans>
@@ -481,11 +481,11 @@ export function ToolbarActions({ dashboard }: Props) {
             onClick={() => {
               dashboard.openSaveDrawer({});
             }}
-            className={clientStyles.clientPrimaryButton}
+            className={clientStyles.clientSecondaryButton}
             tooltip={t('dashboard.toolbar.save-dashboard.tooltip', 'Save changes')}
             key="save"
             size="sm"
-            variant="primary"
+            variant="secondary"
             data-testid={selectors.components.NavToolbar.editDashboard.saveButton}
           >
             <Trans i18nKey="dashboard.toolbar.save-dashboard.label">保存仪表板</Trans>
@@ -500,11 +500,11 @@ export function ToolbarActions({ dashboard }: Props) {
             onClick={() => {
               dashboard.openSaveDrawer({ saveAsCopy: true });
             }}
-            className={clientStyles.clientPrimaryButton}
+            className={clientStyles.clientSecondaryButton}
             tooltip={t('dashboard.toolbar.save-dashboard-copy.tooltip', 'Save as copy')}
             key="save"
             size="sm"
-            variant="primary"
+            variant="secondary"
           >
             <Trans i18nKey="dashboard.toolbar.save-dashboard-copy.label">保存仪表板</Trans>
           </Button>
@@ -537,11 +537,11 @@ export function ToolbarActions({ dashboard }: Props) {
             onClick={() => {
               dashboard.openSaveDrawer({});
             }}
-            className={clientStyles.clientPrimaryButton}
+            className={clientStyles.clientSecondaryButton}
             tooltip={t('dashboard.toolbar.save-dashboard.tooltip', 'Save changes')}
             size="sm"
             data-testid={selectors.components.NavToolbar.editDashboard.saveButton}
-            variant="primary"
+            variant="secondary"
           >
             <Trans i18nKey="dashboard.toolbar.save-dashboard.label">保存仪表板</Trans>
           </Button>
@@ -549,8 +549,8 @@ export function ToolbarActions({ dashboard }: Props) {
             <Button
               aria-label={t('dashboard.toolbar.more-save-options', 'More save options')}
               icon="angle-down"
-              className={clientStyles.clientPrimaryButton}
-              variant="primary"
+              className={clientStyles.clientSecondaryButton}
+              variant="secondary"
               size="sm"
               style={{ paddingLeft: '8px', paddingRight: '8px' }}
             />
