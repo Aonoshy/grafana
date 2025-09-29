@@ -192,7 +192,7 @@ const getStyles = (theme: GrafanaTheme2, headerHeight: number) => {
       label: 'page-content',
       display: 'flex',
       flexDirection: 'column',
-      paddingTop: getChromeHeaderLevelHeight() + 1, // Toolbar height + 1px border
+      paddingTop: getChromeHeaderLevelHeight() + 1, // Single header level + 1px border (41px total)
       flexGrow: 1,
       height: 'auto',
     }),
@@ -229,6 +229,7 @@ const getStyles = (theme: GrafanaTheme2, headerHeight: number) => {
     topNav: css({
       display: 'flex',
       position: 'fixed',
+      top: 0, // Ensure topNav is positioned at the very top
       zIndex: theme.zIndex.navbarFixed,
       left: 0,
       right: 0,

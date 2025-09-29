@@ -41,7 +41,7 @@ const getStyles = (theme: GrafanaTheme2) => {
       borderBottom: `1px solid ${theme.colors.border.weak}`,
       display: 'flex',
       height: getChromeHeaderLevelHeight(),
-      padding: theme.spacing(0, 1, 0, 2),
+      padding: theme.spacing(0, 1), // Reduced padding to decrease spacing
     }),
   };
 };
