@@ -192,7 +192,7 @@ const getStyles = (theme: GrafanaTheme2, headerHeight: number) => {
       label: 'page-content',
       display: 'flex',
       flexDirection: 'column',
-      paddingTop: headerHeight,
+      paddingTop: getChromeHeaderLevelHeight() + 1, // Toolbar height + 1px border
       flexGrow: 1,
       height: 'auto',
     }),
