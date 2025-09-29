@@ -14,7 +14,7 @@ import { getEditPanelUrl, getInspectUrl, getViewPanelUrl, tryGetExploreUrlForPan
 import { getPanelIdForVizPanel } from '../utils/utils';
 
 import { DashboardScene } from './DashboardScene';
-import { onRemovePanel, toggleVizPanelLegend } from './PanelMenuBehavior';
+import { onRemovePanel } from './PanelMenuBehavior';
 import { DefaultGridLayoutManager } from './layout-default/DefaultGridLayoutManager';
 
 export function setupKeyboardShortcuts(scene: DashboardScene) {
@@ -134,11 +134,6 @@ export function setupKeyboardShortcuts(scene: DashboardScene) {
     }),
   });
 
-  // Toggle legend
-  keybindings.addBinding({
-    key: 'p l',
-    onTrigger: withFocusedPanel(scene, toggleVizPanelLegend),
-  });
 
   // Refresh
   keybindings.addBinding({
