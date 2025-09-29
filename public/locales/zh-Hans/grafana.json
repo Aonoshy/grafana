@@ -4225,8 +4225,8 @@
     "add-menu": {
       "import": "从库导入",
       "paste-panel": "粘贴面板",
-      "row": "行",
-      "visualization": "可视化"
+      "row": "标题",
+      "visualization": "图表"
     },
     "alert-rules-drawer": {
       "redirect-link": "Grafana Alerting 中的列表",
